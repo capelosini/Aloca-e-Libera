@@ -81,22 +81,35 @@ void list_free(DoublyLinkedList *list) {
     free(list);
 }
 
+/////// 6. Memory
+
+typedef struct List List;
+struct List{
+    int size;
+    int i;
+    int buffer[16000];
+}
+
+typedef struct Mem Mem;
+struct Mem{
+    List owners;
+    char buffer[16000];   
+};
+
+Mem createMem(){
+    Mem newMem;
+    newMem.owners.size = 0;
+    newMem.owners.i = 0;
+    return newMem;
+}
+
+Mem mem = createMem();
+void* malloc(int size);
+void* malloc(int size){
+    
+}
+
 int main(){
-    DoublyLinkedList *my_list = list_create();
-
-    int a = 10, b = 20, c = 30;
-
-    list_append(my_list, &a); // List: [10]
-    list_append(my_list, &b); // List: [10, 20]
-    list_prepend(my_list, &c); // List: [30, 10, 20]
-
-    Node *current = my_list->head;
-    while (current != NULL) {
-        int *val = (int *)current->data;
-        printf("Value: %d\n", *val);
-        current = current->next;
-    }
-
-    list_free(my_list);
+    
     return 0;
 }
