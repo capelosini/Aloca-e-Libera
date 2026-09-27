@@ -7,8 +7,8 @@ typedef struct No {
     struct No *proximo;
 } No;
 
-No *criarNo(int valor) {
-    No *novo = (No *) malloc(sizeof(No));
+void inserirFim(No **inicio, int valor) {
+    No *novo = malloc(sizeof(No));
 
     if (novo == NULL) {
         printf("Erro ao alocar memoria.\n");
@@ -16,14 +16,8 @@ No *criarNo(int valor) {
     }
 
     novo->valor = valor;
-    novo->anterior = NULL;
     novo->proximo = NULL;
-
-    return novo;
-}
-
-void inserirFinal(No **inicio, int valor) {
-    No *novo = criarNo(valor);
+    novo->anterior = NULL;
 
     if (*inicio == NULL) {
         *inicio = novo;
@@ -40,12 +34,35 @@ void inserirFinal(No **inicio, int valor) {
     novo->anterior = atual;
 }
 
-void imprimirLista(No *inicio) {
+void mostrarInicioFim(No *inicio) {
     No *atual = inicio;
+
+    printf("Lista do inicio para o fim: ");
 
     while (atual != NULL) {
         printf("%d ", atual->valor);
         atual = atual->proximo;
+    }
+
+    printf("\n");
+}
+
+void mostrarFimInicio(No *inicio) {
+    if (inicio == NULL) {
+        return;
+    }
+
+    No *atual = inicio;
+
+    while (atual->proximo != NULL) {
+        atual = atual->proximo;
+    }
+
+    printf("Lista do fim para o inicio: ");
+
+    while (atual != NULL) {
+        printf("%d ", atual->valor);
+        atual = atual->anterior;
     }
 
     printf("\n");
@@ -61,15 +78,16 @@ void liberarLista(No *inicio) {
     }
 }
 
-int main() {
+int main(void) {
     No *inicio = NULL;
 
-    inserirFinal(&inicio, 10);
-    inserirFinal(&inicio, 20);
-    inserirFinal(&inicio, 30);
+    inserirFim(&inicio, 10);
+    inserirFim(&inicio, 20);
+    inserirFim(&inicio, 30);
+    inserirFim(&inicio, 40);
 
-    printf("Lista: ");
-    imprimirLista(inicio);
+    mostrarInicioFim(inicio);
+    mostrarFimInicio(inicio);
 
     liberarLista(inicio);
 
